@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <my_header :boom="1" :time="2"></my_header>
+    <my_header :boom="1"></my_header>
     <my_content></my_content>
     <!--
         <div>

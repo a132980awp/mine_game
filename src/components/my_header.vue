@@ -1,7 +1,7 @@
 <template>
     <div class=info-bar>
         <div class="info-bar-item">剩余雷数：{{boom}}</div>
-        <div class="info-bar-item">时间：{{time}}</div>
+        <div class="info-bar-item">时间：{{time|time_format}}</div>
     </div>
 </template>
 
@@ -12,15 +12,31 @@
             boom: {
                 type: Number,
                 default: 10
-            },
-            time: {
-                type: Number,
-                default: 10
             }
         },
         data(){
             return{
-                
+                time : 0,
+                timer : null
+            }
+        },
+        mounted(){
+            this.timer = setInterval(()=>{
+                this.time += 1;
+            },1000)
+        },
+        destoryed(){
+            clearInterval(this.timer);
+        },
+        filters:{
+            time_format(second){
+                let mins = parseInt(second/60)%60;
+                let sec = second%60;
+                if(mins<10)
+                    mins = '0' + mins;
+                if(sec<10)
+                    sec = '0' + sec;
+                return mins + ':' + sec;
             }
         }
     }
