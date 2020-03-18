@@ -1,19 +1,4 @@
-# sl
+# 扫雷小游戏
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+之前写的太丑了，虽然这游戏逻辑简单，没什么好学的，但是本着再小的项目也要写的像样点的态度，还是重置一下。
+不求精致，只求不那么丑。
