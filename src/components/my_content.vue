@@ -1,20 +1,21 @@
 <template>
     <div class="boom-list">
-        <div v-for="i in 100" class="boom-items"  @click="hit(i)">
-            <div :class="{shadow:true,hidden:list_state[i]}"></div>
-            <div :class="{hidden:!list_state[i]}">{{list[i]}}</div>
+        <div v-for="i in 100" class="boom-items"  @click="hit(i-1)">
+            <div :class="{shadow:true,hidden:list_state[i-1]}"></div>
+            <div :class="{hidden:list_state[i-1]}">{{list[i-1]}}</div>
         </div>
         </div>
     </div>
 </template>
 
 <script>
+    import create_mine from "../assets/create_mine.js"
     export default{
         name:"my_content",
         data(){
             return{
-                list: Array(101).fill(0),
-                list_state: Array(101).fill(false)
+                list: Array(100).fill(0),
+                list_state: Array(100).fill(false)
             }
         },
         methods:{
@@ -23,7 +24,13 @@
                     return;
                 this.list_state.splice(index,1,true);
                 console.log(index);
+            },
+            restart(){
+                this.list = create_mine();
             }
+        },
+        mounted(){
+            this.restart();
         }
     }
 </script>
