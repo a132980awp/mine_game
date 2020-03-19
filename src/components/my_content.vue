@@ -1,8 +1,8 @@
 <template>
     <div class="boom-list">
-        <div v-for="i in 100" class="boom-items">
-            <div class="shadow"></div>
-            <div>{{list[i]}}</div>
+        <div v-for="i in 100" class="boom-items"  @click="hit(i)">
+            <div :class="{shadow:true,hidden:list_state[i]}"></div>
+            <div :class="{hidden:!list_state[i]}">{{list[i]}}</div>
         </div>
         </div>
     </div>
@@ -11,19 +11,18 @@
 <script>
     export default{
         name:"my_content",
-        props:{
-            list: {
-                type: Array,
-                default: ()=>{return Array(130).fill(0)}
-            },
-            time: {
-                type: Number,
-                default: 10
-            }
-        },
         data(){
             return{
-                
+                list: Array(101).fill(0),
+                list_state: Array(101).fill(false)
+            }
+        },
+        methods:{
+            hit(index){
+                if(this.list_state[index])
+                    return;
+                this.list_state.splice(index,1,true);
+                console.log(index);
             }
         }
     }
@@ -57,5 +56,8 @@
 }
 .boom-items .shadow:hover{
     opacity: 0;
+}
+.hidden{
+    visibility: hidden;
 }
 </style>

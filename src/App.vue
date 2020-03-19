@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div class="bg"></div>
     <my_header :boom="1"></my_header>
     <my_content></my_content>
     <!--
@@ -149,8 +150,28 @@
 <style>
   #app{
     max-width: 400px;
-    background: linear-gradient(to right bottom,#fa03b0,#fc000d);
+    position: relative;
     border-radius: 6px;
+    overflow: hidden;
   }
 
+  .bg{
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(to right,#fa03b0,#4b0303,blue);
+    animation: color_change linear infinite 7s;
+    z-index: -1;
+  }
+  @keyframes color_change {
+    0%{
+      left: 0;
+    }
+    50%{
+      left: -100%;
+    }
+    100%{
+      left: 0;
+    }
+  }
 </style>
