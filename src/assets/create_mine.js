@@ -13,9 +13,6 @@ export default function create_mine(){
         list.splice(0, list.length, ...new_arr.map(i => i.v));
     };
 
-    /**
-        返回i下标周围8个方格的下标数组
-    */
     function near_8(i){
         var i_z = parseInt(i/10);   //十位，代表行
         var i_l = i%10;             //个位，代表列
@@ -48,7 +45,22 @@ export default function create_mine(){
     return list;
 };
 
-
+/**
+    由于这个函数在后面还要用到，挂载成静态方法return回去
+*/
+create_mine.near_8 = function(i){
+    var i_z = parseInt(i/10);   //十位，代表行
+    var i_l = i%10;             //个位，代表列
+    var nums = [];
+    for(var i=-1;i<2;i++){
+        for(var j=-1;j<2;j++){
+            if(0<=i_z+i&&i_z+i<=9&&0<=i_l+j&&i_l+j<=9){ //不能超过10x10
+                nums.push((i_z+i)*10+i_l+j);
+            }
+        }
+    }
+    return nums;
+}
 
 
 

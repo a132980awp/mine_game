@@ -3,7 +3,7 @@
         <div v-for="i in 100" class="boom-items"  @click="hit(i-1)" @contextmenu.prevent="mine_flag(i-1)">
             <div :class="{flag:true,hidden:!is_flag[i-1]}"></div>
             <div :class="{shadow:true,hidden:list_state[i-1]}"></div>
-            <div :class="{hidden:!list_state[i-1]}">{{list[i-1]}}</div>
+            <div v-show="list[i-1]" :class="{hidden:!list_state[i-1]}">{{list[i-1]}}</div>
         </div>
         </div>
     </div>
@@ -20,23 +20,47 @@
                 is_flag: Array(100).fill(false)
             }
         },
+        computed:{
+            flag_nums(){
+                let i = 0;
+                this.is_flag.forEach(con=>{
+                    if(con)
+                        i++;
+                });
+                return i;
+            }
+        },
         methods:{
             hit(index){
                 if(this.list_state[index])
                     return;
+                this.is_flag.splice(index,1,false);
                 this.list_state.splice(index,1,true);
-                if(this.is_game_over()==-1)
+                this.$emit('change_mine_nums',10-this.flag_nums);
+                if(this.is_game_over()==-1){
+                    if(this.list[index]==0){
+                        let others = create_mine.near_8(index);
+                        others.forEach(i => {
+                            if(!this.list_state[i])
+                                this.hit(i);
+                        });
+                    }
                     return;
+                }
                 if(this.is_game_over()==1)
                     alert("游戏结束");
-                if(this.is_game_over()==2)
+                if(this.is_game_over()==2){
+                    this.$emit("change_record");
                     alert("游戏获胜");
+                }
                 this.restart();
             },
             restart(){
                 this.list = create_mine();
                 this.list_state = Array(100).fill(false);
                 this.is_flag = Array(100).fill(false);
+                this.$emit('change_mine_nums',10-this.flag_nums);
+                this.$emit('reset_time');
             },
             is_game_over(){ //是否游戏结束
                 let hits = 0;
@@ -57,8 +81,9 @@
             mine_flag(index){
                 if(this.list_state[index])
                     return;    
-                console.log("1");
                 this.is_flag.splice(index,1,!this.is_flag[index]); 
+                this.$emit('change_mine_nums',10-this.flag_nums);
+                console.log(this.flag_nums);
             }
         },
         mounted(){
@@ -99,7 +124,7 @@
     visibility: hidden;
 }
 
-
+/*用CSS画一个雷出来，不用icon库*/
 .flag{
     position: absolute;
     left: 3px;
@@ -129,5 +154,17 @@
     width: 2px;
     height: 12px;
     background: red;
+}
+
+@media(max-width: 399px) {
+    .boom-list{
+        min-width: 300px;
+        padding: 0 15px;
+    }
+
+    .boom-items{
+        height: 28px;
+        width: 28px;
+    }
 }
 </style>

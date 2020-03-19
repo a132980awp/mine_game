@@ -1,37 +1,26 @@
 <template>
     <div class=info-bar>
-        <div class="info-bar-item">剩余雷数：{{boom}}</div>
-        <div class="info-bar-item">时间：{{time|time_format}}</div>
+        <div @click="restart" class="info-bar-item">restart</div>
+        <div class="info-bar-item">记录：{{time|time_format}}</div>
     </div>
 </template>
 
 <script>
     export default{
-        name:"my_header",
-        props:{
-            boom: {
-                type: Number,
-                default: 10
-            }
-        },
+        name:"my_footer",
         data(){
             return{
-                time : 0,
-                timer : null
+                time : 3599
             }
         },
-        methods: {
-            reset(){
-                this.time = 0;
+        methods:{
+            restart(){
+                this.$emit("restart");
+            },
+            change_record(index){
+                if(this.time>index)
+                    this.time = index;
             }
-        },
-        mounted(){
-            this.timer = setInterval(()=>{
-                this.time += 1;
-            },1000)
-        },
-        destoryed(){
-            clearInterval(this.timer);
         },
         filters:{
             time_format(second){
