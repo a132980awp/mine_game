@@ -1,4 +1,4 @@
-export default function create_mine(){    //挂载在静态方法上
+export default function create_mine(){    
     let context = this;
     let list = Array(100).fill(0);
     for(let i = 0;i < 10;i++)
